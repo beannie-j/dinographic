@@ -35,16 +35,41 @@ Dino.prototype.compareWeight = function (human) {
 };
 
 Dino.prototype.compareHeight = function (human) {
-  console.log("comparing height");
+  let humanHeight = human.height;
+  let heightRatio = (this.height / humanHeight).toFixed(1);
+  if (heightRatio > 1) {
+    fact = `${this.species} is ${heightRatio} times taller than you.`;
+    this.addFact(fact);
+    return fact;
+  }
+  if (heightRatio < 1) {
+    fact = `You are ${heightRatio} times more taller ${this.species}.`;
+    this.addFact(fact);
+    return fact;
+  }
+  fact = `You are the same height as ${this.species}!`;
+  this.addFact(fact);
+  return fact;
 };
 
 Dino.prototype.compareDiet = function (human) {
-  console.log("comparing Diet");
+  let humanDiet = human.diet;
+  const article = humanDiet === "omnivore" ? "an" : "a";
+
+  if (humanDiet === this.diet) {
+    fact = `You are ${article} ${humanDiet} and ${this.species} is too.`;
+    this.addFact(fact);
+    return fact;
+  }
+
+  fact = `You are ${article} ${humanDiet} but ${this.species} is ${this.diet}.`;
+  this.addFact(fact);
+  return fact;
 };
 
 function fetchDinoData() {
   let arr = [];
-  fetch("../dino.json")
+  return fetch("../dino.json")
     .then((response) => {
       return response.json();
     })
@@ -61,20 +86,25 @@ function fetchDinoData() {
             entry.fact
           )
       );
-      return Promise.all(arr);
+      // return the array instead
+      return arr;
     })
     .catch((error) => {
       return console.log(error.message);
     });
 }
 
-fetchDinoData().then(function (dinos) {
-  console.log(dinos);
-});
-
 function compareMeClicked(e) {
   e.preventDefault();
+
+  let dinos = fetchDinoData(); // this should return array but it still returns promise.fine-print
   let human = getHuman();
+
+  for (let dino in dinos) {
+    dino.compareDiet(human);
+    dino.compareHeight(human);
+    dino.compareWeight(human);
+  }
 }
 
 function getHuman() {
