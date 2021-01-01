@@ -15,7 +15,6 @@ Dino.prototype.addFact = function (fact) {
 };
 
 Dino.prototype.compareWeight = function (human) {
-  console.log("comparing weight");
   let humanWeight = human.weight;
   let weightRatio = (this.weight / humanWeight).toFixed(1);
   let fact;
@@ -67,6 +66,13 @@ Dino.prototype.compareDiet = function (human) {
   return fact;
 };
 
+function Human(name, height, weight, diet) {
+  this.name = name;
+  this.height = height;
+  this.weight = weight;
+  this.diet = diet;
+}
+
 function fetchDinoData() {
   let arr = [];
   return fetch("../dino.json")
@@ -86,67 +92,60 @@ function fetchDinoData() {
             entry.fact
           )
       );
-      // return the array instead
       return arr;
     })
     .catch((error) => {
       return console.log(error.message);
     });
 }
-
-async function compareMeClicked(e) {
-  e.preventDefault();
-
-  let dinos = await fetchDinoData(); // this should return array but it still returns promise.fine-print
-  console.log(dinos);
-  let human = getHuman();
-
-  for (let dino in dinos) {
-    dino.compareDiet(human);
-    dino.compareHeight(human);
-    dino.compareWeight(human);
-  }
-}
-
 function getHuman() {
   let name = document.querySelector("#name").value;
   let heightFeet = parseFloat(document.querySelector("#feet").value);
   let heightInches = parseFloat(document.querySelector("#inches").value);
   let weight = parseFloat(document.querySelector("#weight").value);
-  let diet = parseFloat(document.querySelector("#diet").value);
+  let diet = document.querySelector("#diet").value;
   let height = heightFeet * 12 + heightInches;
   return new Human(name, height, weight, diet);
 }
 
-// Create Dino Objects
+async function compareMeClicked(e) {
+  e.preventDefault();
 
-// Create Human Object
-function Human(name, height, weight, diet) {
-  this.name = name;
-  this.height = height;
-  this.weight = weight;
-  this.diet = diet;
+  let human = getHuman();
+  let dinos = await fetchDinoData();
+
+  document.querySelector("#dino-compare").style.display = "none";
+  let grid = document.querySelector("#grid");
+
+  for (let dino of dinos) {
+    dino.compareDiet(human);
+    dino.compareHeight(human);
+    dino.compareWeight(human);
+    let item = createGridItem(dino);
+    grid.appendChild(item);
+  }
 }
 
-// Use IIFE to get human data from form
+function createGridItem(dino) {
+  let gridItemDiv = document.createElement("div");
+  gridItemDiv.className = "grid-item";
+
+  let speciesDiv = document.createElement("h3");
+  speciesDiv.innerText = dino.species;
+
+  let image = document.createElement("img");
+  image.src = `../images/${dino.species.toLowerCase()}.png`;
+
+  let fact = document.createElement("p");
+  fact.innerText = dino.facts[1];
+
+  gridItemDiv.appendChild(speciesDiv);
+  gridItemDiv.appendChild(image);
+  gridItemDiv.appendChild(fact);
+
+  return gridItemDiv;
+}
 
 (function () {
   document.querySelector("#btn").addEventListener("click", compareMeClicked);
 })();
-
-// Create Dino Compare Method 1
-// NOTE: Weight in JSON file is in lbs, height in inches.
-
-// Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
-
-// Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
-
-// Generate Tiles for each Dino in Array
-
-// Add tiles to DOM
-
-// Remove form from screen
-
-// On button click, prepare and display infographic

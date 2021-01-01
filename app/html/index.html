@@ -35,6 +35,8 @@
           type="name"
           name="name"
           min="0"
+          placeholder="Enter your name"
+          required
         />
         <p>Height</p>
         <label
@@ -45,6 +47,8 @@
             type="number"
             name="feet"
             min="0"
+            placeholder="0"
+            required
         /></label>
         <label
           >inches:
@@ -54,6 +58,8 @@
             type="number"
             name="inches"
             min="0"
+            placeholder="0"
+            required
         /></label>
         <p>Weight:</p>
         <label
@@ -63,10 +69,13 @@
             type="number"
             name="weight"
             min="0"
+            placeholder="0"
+            required
           />lbs</label
         >
         <p>Diet:</p>
-        <select id="diet" class="form-field__full" name="diet">
+        <select id="diet" class="form-field__full" name="diet" required>
+          <option selected disabled>What is your diet?</option>
           <option>Herbavor</option>
           <option>Omnivor</option>
           <option>Carnivor</option>
