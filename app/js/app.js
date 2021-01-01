@@ -94,10 +94,11 @@ function fetchDinoData() {
     });
 }
 
-function compareMeClicked(e) {
+async function compareMeClicked(e) {
   e.preventDefault();
 
-  let dinos = fetchDinoData(); // this should return array but it still returns promise.fine-print
+  let dinos = await fetchDinoData(); // this should return array but it still returns promise.fine-print
+  console.log(dinos);
   let human = getHuman();
 
   for (let dino in dinos) {
