@@ -72,11 +72,6 @@ fetchDinoData().then(function (dinos) {
   console.log(dinos);
 });
 
-function getDinoArray(dinos) {
-  console.log("dinos", dinos);
-  return dinos;
-}
-
 function compareMeClicked(e) {
   e.preventDefault();
   let human = getHuman();
