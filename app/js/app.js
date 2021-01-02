@@ -170,13 +170,11 @@ function getHuman() {
 /**
  * @description Listens to try again button.
  */
-const tryAgainButton = document.createElement("button");
-tryAgainButton.id = "btn-tryAgain";
-tryAgainButton.innerHTML = "Try again";
 
-tryAgainButton.addEventListener("click", () => {
-  console.log("try again clicked");
+function userTryAgain() {
   document.querySelector("#grid").style.display = "none";
+  document.querySelector("#btn-tryAgain").style.display = "none";
+
   document.querySelector("#dino-compare").style.display = "block";
 
   document.querySelector("#name").value = "";
@@ -184,7 +182,7 @@ tryAgainButton.addEventListener("click", () => {
   document.querySelector("#inches").value = 0;
   document.querySelector("#weight").value = 0;
   document.querySelector("#diet").selectedIndex = 0;
-});
+}
 
 /**
  * @description Adds the Grid to page when compare me button is clicked.
@@ -213,9 +211,7 @@ function compareMeClicked(dinos) {
     counter++;
   });
 
-  let buttonDiv = document.createElement("div");
-  buttonDiv.appendChild(tryAgainButton);
-  grid.appendChild(buttonDiv);
+  document.querySelector("#btn-tryAgain").style.display = "block";
 }
 
 /**
@@ -283,4 +279,8 @@ function createGridItem(animal) {
         compareMeClicked(dinos);
       }
     });
+
+  document.querySelector("#btn-tryAgain").addEventListener("click", () => {
+    userTryAgain();
+  });
 })();

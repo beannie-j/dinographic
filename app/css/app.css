@@ -157,7 +157,8 @@ select {
   display: block;
 }
 
-#btn {
+#btn,
+#btn-tryAgain {
   display: inline-block;
   background: #ccc;
   padding: 0.8em;
@@ -165,26 +166,15 @@ select {
   transition: ease 0.3s all;
 }
 
-#btn:hover {
+#btn:hover,
+#btn-tryAgain:hover {
   background: #777;
   color: #fff;
   cursor: pointer;
 }
 
 #btn-tryAgain {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #ccc;
-  padding: 0.8em;
-  margin: 1.2em auto;
-  transition: ease 0.3s all;
-}
-
-#btn-tryAgain:hover {
-  background: #777;
-  color: #fff;
-  cursor: pointer;
+  display: none;
 }
 
 /* Footer */
