@@ -1,8 +1,17 @@
-function Dino(species, height, weight, diet, where, when, fact) {
-  this.species = species;
+function Animal(height, weight, diet) {
   this.height = height;
   this.weight = weight;
   this.diet = diet;
+}
+
+function Human(name, height, weight, diet) {
+  this.name = name;
+  Animal.call(this, height, weight, diet);
+}
+
+function Dino(species, height, weight, diet, where, when, fact) {
+  this.species = species;
+  Animal.call(this, height, weight, diet);
   this.where = where;
   this.when = when;
   this.facts = [];
@@ -14,6 +23,9 @@ Dino.prototype.addFact = function (fact) {
 };
 
 Dino.prototype.compareWeight = function (human) {
+  if (this.species === "Pigeon") {
+    return;
+  }
   let humanWeight = human.weight;
   let weightRatio = (this.weight / humanWeight).toFixed(1);
   let fact;
@@ -33,6 +45,9 @@ Dino.prototype.compareWeight = function (human) {
 };
 
 Dino.prototype.compareHeight = function (human) {
+  if (this.species === "Pigeon") {
+    return;
+  }
   let humanHeight = human.height;
   let heightRatio = (this.height / humanHeight).toFixed(1);
   if (heightRatio > 1) {
@@ -51,6 +66,9 @@ Dino.prototype.compareHeight = function (human) {
 };
 
 Dino.prototype.compareDiet = function (human) {
+  if (this.species === "Pigeon") {
+    return;
+  }
   let humanDiet = human.diet;
   const article = humanDiet === "omnivore" ? "an" : "a";
 
@@ -64,13 +82,6 @@ Dino.prototype.compareDiet = function (human) {
   this.addFact(fact);
   return fact;
 };
-
-function Human(name, height, weight, diet) {
-  this.name = name;
-  this.height = height;
-  this.weight = weight;
-  this.diet = diet;
-}
 
 function fetchDinoData() {
   let arr = [];
@@ -120,7 +131,6 @@ async function compareMeClicked(e) {
 
   for (let dino of dinos) {
     if (counter === 4) {
-      console.log(human);
       let item = createHumanGridItem(human);
       grid.appendChild(item);
     }
@@ -128,8 +138,14 @@ async function compareMeClicked(e) {
     dino.compareDiet(human);
     dino.compareHeight(human);
     dino.compareWeight(human);
+
     let item = createDinoGridItem(dino);
     grid.appendChild(item);
+
+    let buttonDiv = document.createElement("div");
+    let tryAgainButton = document.createElement("button");
+    buttonDiv.appendChild(tryAgainButton);
+
     counter++;
   }
 }
@@ -184,6 +200,5 @@ function createDinoGridItem(dino) {
 (function () {
   window.addEventListener("load", async (event) => {
     let dinos = await fetchDinoData();
-    console.log(dinos);
   });
 })();
