@@ -1,4 +1,3 @@
-// Create Dino Constructor
 function Dino(species, height, weight, diet, where, when, fact) {
   this.species = species;
   this.height = height;
@@ -180,4 +179,11 @@ function createDinoGridItem(dino) {
   document
     .querySelector("#dino-compare")
     .addEventListener("submit", compareMeClicked);
+})();
+
+(function () {
+  window.addEventListener("load", async (event) => {
+    let dinos = await fetchDinoData();
+    console.log(dinos);
+  });
 })();
