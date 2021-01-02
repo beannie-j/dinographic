@@ -9,6 +9,7 @@ function Animal(height, weight, diet) {
   this.weight = weight;
   this.diet = diet;
 }
+
 /**
  * @param  {string} name
  * @param  {number} height
@@ -19,6 +20,7 @@ function Human(name, height, weight, diet) {
   this.name = name;
   Animal.call(this, height, weight, diet);
 }
+
 /**
  * @param  {string} species
  * @param  {number} height
@@ -36,12 +38,14 @@ function Dino(species, height, weight, diet, where, when, fact) {
   this.facts = fact ? [fact] : [];
   this.fact = fact;
 }
+
 /**
  * @param  {string} fact
  */
 Dino.prototype.addFact = function (fact) {
   this.facts.push(fact);
 };
+
 /**
  * @description Compares weight of Dinosaur object and Human object.
  * @param  {object} human
@@ -68,6 +72,7 @@ Dino.prototype.compareWeight = function (human) {
   this.addFact(fact);
   return fact;
 };
+
 /**
  * @description Compares height of Dinosaur object and Human object.
  * @param  {object} human
@@ -94,6 +99,7 @@ Dino.prototype.compareHeight = function (human) {
   this.addFact(fact);
   return fact;
 };
+
 /**
  * @description Compares diet of Dinosaur object and Human object.
  * @param  {object} human
@@ -117,6 +123,7 @@ Dino.prototype.compareDiet = function (human) {
   this.addFact(fact);
   return fact;
 };
+
 /**
  * @description Fetches Dinosaur data from dino.json
  * @returns {Array} Array of Dino objects
@@ -146,6 +153,7 @@ function fetchDinoData() {
       return console.log(error.message);
     });
 }
+
 /**
  * @description Gets user input from html form.
  * @returns {Object} Human object created from user input.
@@ -159,6 +167,7 @@ function getHuman() {
   const height = heightFeet * 12 + heightInches;
   return new Human(name, height, weight, diet);
 }
+
 /**
  * @description Adds the Grid to page when compare me button is clicked.
  * @param  {Object} dinos
@@ -183,14 +192,14 @@ async function compareMeClicked(dinos) {
 
     const item = createGridItem(dino);
     grid.appendChild(item);
-
-    let buttonDiv = document.createElement("div");
-    const tryAgainButton = document.createElement("button");
-    buttonDiv.appendChild(tryAgainButton);
-
     counter++;
   });
+
+  let buttonDiv = document.createElement("div");
+  const tryAgainButton = document.createElement("button");
+  buttonDiv.appendChild(tryAgainButton);
 }
+
 /**
  * @description Returns a random number within range of 0 and max number.
  * @param  {number} max
@@ -198,6 +207,7 @@ async function compareMeClicked(dinos) {
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
+
 /**
  * @param  {Object} animal
  * @returns {Object} Grid item to be added to Grid.
