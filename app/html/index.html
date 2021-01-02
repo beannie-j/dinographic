@@ -28,7 +28,7 @@
     <!-- Form to get user input -->
     <form id="dino-compare">
       <div class="form-container">
-        <p>Name:</p>
+        <p>Name: *</p>
         <input
           id="name"
           class="form-field__full"
@@ -38,7 +38,7 @@
           placeholder="Enter your name"
           required
         />
-        <p>Height</p>
+        <p>Height: *</p>
         <label
           >Feet:
           <input
@@ -58,10 +58,10 @@
             type="number"
             name="inches"
             min="0"
-            placeholder="0"
+            value="0"
             required
         /></label>
-        <p>Weight:</p>
+        <p>Weight: *</p>
         <label
           ><input
             id="weight"
@@ -69,11 +69,11 @@
             type="number"
             name="weight"
             min="0"
-            placeholder="0"
+            value="0"
             required
           />lbs</label
         >
-        <p>Diet:</p>
+        <p>Diet: *</p>
         <select id="diet" class="form-field__full" name="diet" required>
           <option selected disabled>What is your diet?</option>
           <option>Herbavor</option>
