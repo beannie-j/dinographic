@@ -1,33 +1,58 @@
+"use strict";
+/**
+ * @param  {number} height
+ * @param  {number} weight
+ * @param  {string} diet
+ */
 function Animal(height, weight, diet) {
   this.height = height;
   this.weight = weight;
   this.diet = diet;
 }
-
+/**
+ * @param  {string} name
+ * @param  {number} height
+ * @param  {number} weight
+ * @param  {number} diet
+ */
 function Human(name, height, weight, diet) {
   this.name = name;
   Animal.call(this, height, weight, diet);
 }
-
+/**
+ * @param  {string} species
+ * @param  {number} height
+ * @param  {number} weight
+ * @param  {string} diet
+ * @param  {string} where
+ * @param  {string} when
+ * @param  {string} fact
+ */
 function Dino(species, height, weight, diet, where, when, fact) {
-  this.species = species;
   Animal.call(this, height, weight, diet);
+  this.species = species;
   this.where = where;
   this.when = when;
-  this.facts = [];
-  this.facts.push(fact);
+  this.facts = fact ? [fact] : [];
+  this.fact = fact;
 }
-
+/**
+ * @param  {string} fact
+ */
 Dino.prototype.addFact = function (fact) {
   this.facts.push(fact);
 };
-
+/**
+ * @description Compares weight of Dinosaur object and Human object.
+ * @param  {object} human
+ * @returns {string} fact
+ */
 Dino.prototype.compareWeight = function (human) {
   if (this.species === "Pigeon") {
     return;
   }
-  let humanWeight = human.weight;
-  let weightRatio = (this.weight / humanWeight).toFixed(1);
+  const humanWeight = human.weight;
+  const weightRatio = (this.weight / humanWeight).toFixed(1);
   let fact;
   if (weightRatio > 1) {
     fact = `${this.species} weighs ${weightRatio} times more than you.`;
@@ -43,13 +68,18 @@ Dino.prototype.compareWeight = function (human) {
   this.addFact(fact);
   return fact;
 };
-
+/**
+ * @description Compares height of Dinosaur object and Human object.
+ * @param  {object} human
+ * @returns {string} fact
+ */
 Dino.prototype.compareHeight = function (human) {
   if (this.species === "Pigeon") {
     return;
   }
-  let humanHeight = human.height;
-  let heightRatio = (this.height / humanHeight).toFixed(1);
+  const humanHeight = human.height;
+  const heightRatio = (this.height / humanHeight).toFixed(1);
+  let fact;
   if (heightRatio > 1) {
     fact = `${this.species} is ${heightRatio} times taller than you.`;
     this.addFact(fact);
@@ -64,14 +94,19 @@ Dino.prototype.compareHeight = function (human) {
   this.addFact(fact);
   return fact;
 };
-
+/**
+ * @description Compares diet of Dinosaur object and Human object.
+ * @param  {object} human
+ * @returns {string} fact
+ */
 Dino.prototype.compareDiet = function (human) {
   if (this.species === "Pigeon") {
     return;
   }
-  let humanDiet = human.diet;
+  const humanDiet = human.diet;
   const article = humanDiet === "omnivore" ? "an" : "a";
 
+  let fact;
   if (humanDiet === this.diet) {
     fact = `You are ${article} ${humanDiet} and ${this.species} is too.`;
     this.addFact(fact);
@@ -82,7 +117,10 @@ Dino.prototype.compareDiet = function (human) {
   this.addFact(fact);
   return fact;
 };
-
+/**
+ * @description Fetches Dinosaur data from dino.json
+ * @returns {Array} Array of Dino objects
+ */
 function fetchDinoData() {
   let arr = [];
   return fetch("../dino.json")
@@ -108,30 +146,34 @@ function fetchDinoData() {
       return console.log(error.message);
     });
 }
-
+/**
+ * @description Gets user input from html form.
+ * @returns {Object} Human object created from user input.
+ */
 function getHuman() {
-  let name = document.querySelector("#name").value;
-  let heightFeet = parseFloat(document.querySelector("#feet").value);
-  let heightInches = parseFloat(document.querySelector("#inches").value);
-  let weight = parseFloat(document.querySelector("#weight").value);
-  let diet = document.querySelector("#diet").value;
-  let height = heightFeet * 12 + heightInches;
+  const name = document.querySelector("#name").value;
+  const heightFeet = parseFloat(document.querySelector("#feet").value);
+  const heightInches = parseFloat(document.querySelector("#inches").value);
+  const weight = parseFloat(document.querySelector("#weight").value);
+  const diet = document.querySelector("#diet").value;
+  const height = heightFeet * 12 + heightInches;
   return new Human(name, height, weight, diet);
 }
-
-async function compareMeClicked(e) {
+/**
+ * @description Adds the Grid to page when compare me button is clicked.
+ * @param  {Object} dinos
+ */
+async function compareMeClicked(dinos) {
   let counter = 0;
-  e.preventDefault();
 
-  let human = getHuman();
-  let dinos = await fetchDinoData();
+  const human = getHuman();
 
   document.querySelector("#dino-compare").style.display = "none";
-  let grid = document.querySelector("#grid");
+  const grid = document.querySelector("#grid");
 
-  for (let dino of dinos) {
+  dinos.forEach((dino) => {
     if (counter === 4) {
-      let item = createHumanGridItem(human);
+      let item = createGridItem(human);
       grid.appendChild(item);
     }
 
@@ -139,66 +181,78 @@ async function compareMeClicked(e) {
     dino.compareHeight(human);
     dino.compareWeight(human);
 
-    let item = createDinoGridItem(dino);
+    const item = createGridItem(dino);
     grid.appendChild(item);
 
     let buttonDiv = document.createElement("div");
-    let tryAgainButton = document.createElement("button");
+    const tryAgainButton = document.createElement("button");
     buttonDiv.appendChild(tryAgainButton);
 
     counter++;
-  }
+  });
 }
-
+/**
+ * @description Returns a random number within range of 0 and max number.
+ * @param  {number} max
+ */
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
-function createHumanGridItem(human) {
+/**
+ * @param  {Object} animal
+ * @returns {Object} Grid item to be added to Grid.
+ */
+function createGridItem(animal) {
   let gridItemDiv = document.createElement("div");
   gridItemDiv.className = "grid-item";
 
-  let speciesDiv = document.createElement("h3");
-  speciesDiv.innerText = human.name;
+  if (animal instanceof Dino) {
+    let speciesDiv = document.createElement("h3");
+    speciesDiv.innerText = animal.species;
+    let image = document.createElement("img");
+    image.src = `../images/${animal.species.toLowerCase()}.png`;
+    let fact = document.createElement("p");
+    const randomInt = getRandomInt(animal.facts.length - 1);
+    fact.innerText = animal.facts[randomInt];
+    gridItemDiv.appendChild(speciesDiv);
+    gridItemDiv.appendChild(image);
+    gridItemDiv.appendChild(fact);
 
-  let image = document.createElement("img");
-  image.src = `../images/human.png`;
-
-  gridItemDiv.appendChild(speciesDiv);
-  gridItemDiv.appendChild(image);
-
-  return gridItemDiv;
-}
-
-function createDinoGridItem(dino) {
-  let gridItemDiv = document.createElement("div");
-  gridItemDiv.className = "grid-item";
-
-  let speciesDiv = document.createElement("h3");
-  speciesDiv.innerText = dino.species;
-
-  let image = document.createElement("img");
-  image.src = `../images/${dino.species.toLowerCase()}.png`;
-
-  let fact = document.createElement("p");
-  let randomInt = getRandomInt(dino.facts.length - 1);
-  fact.innerText = dino.facts[randomInt];
-
-  gridItemDiv.appendChild(speciesDiv);
-  gridItemDiv.appendChild(image);
-  gridItemDiv.appendChild(fact);
-
+    return gridItemDiv;
+  }
+  if (animal instanceof Human) {
+    let speciesDiv = document.createElement("h3");
+    speciesDiv.innerText = animal.name;
+    let image = document.createElement("img");
+    image.src = `../images/human.png`;
+    gridItemDiv.appendChild(speciesDiv);
+    gridItemDiv.appendChild(image);
+    return gridItemDiv;
+  }
   return gridItemDiv;
 }
 
 (function () {
+  let dinos = [];
+  /**
+   * @description IFFE functions that fetches dinos data from dino.json on page load.
+   * @param  {} "load"
+   */
+  window.addEventListener("load", async () => {
+    dinos = await fetchDinoData();
+  });
+  /**
+   * @description Listens to form submit event on main page.
+   * @param  {} "#dino-compare"
+   */
   document
     .querySelector("#dino-compare")
-    .addEventListener("submit", compareMeClicked);
-})();
-
-(function () {
-  window.addEventListener("load", async (event) => {
-    let dinos = await fetchDinoData();
-  });
+    .addEventListener("submit", (event) => {
+      // event is only used for this,
+      // so it is cleaner to move it here
+      event.preventDefault();
+      if (dinos.length) {
+        compareMeClicked(dinos);
+      }
+    });
 })();

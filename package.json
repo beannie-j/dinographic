@@ -1,0 +1,23 @@
+{
+  "name": "dinographic",
+  "version": "1.0.0",
+  "description": "This is a project made while taking Udacity's Intermediate JavaScript Nanodegree Program.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.17.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beannie-j/dinographic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beannie-j/dinographic/issues"
+  },
+  "homepage": "https://github.com/beannie-j/dinographic#readme"
+}
