@@ -197,7 +197,10 @@ function compareMeClicked(dinos) {
 
   let buttonDiv = document.createElement("div");
   const tryAgainButton = document.createElement("button");
+  tryAgainButton.id = "btn-tryAgain";
+  tryAgainButton.innerHTML = "Try again";
   buttonDiv.appendChild(tryAgainButton);
+  grid.appendChild(buttonDiv);
 }
 
 /**
@@ -266,3 +269,7 @@ function createGridItem(animal) {
       }
     });
 })();
+
+document.querySelector("#btn-tryAgain").addEventListener("click", () => {
+  document.querySelector("#grid").style.display = "none";
+});
