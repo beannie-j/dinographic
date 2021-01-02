@@ -57,20 +57,17 @@ Dino.prototype.compareWeight = function (human) {
   }
   const humanWeight = human.weight;
   const weightRatio = (this.weight / humanWeight).toFixed(1);
-  let fact;
   if (weightRatio > 1) {
-    fact = `${this.species} weighs ${weightRatio} times more than you.`;
-    this.addFact(fact);
-    return fact;
+    return this.addFact(
+      `${this.species} weighs ${weightRatio} times more than you.`
+    );
   }
   if (weightRatio < 1) {
-    fact = `You weigh ${weightRatio} times more than ${this.species}.`;
-    this.addFact(fact);
-    return fact;
+    return this.addFact(
+      `You weigh ${weightRatio} times more than ${this.species}.`
+    );
   }
-  fact = `You weigh the same as ${this.species}!`;
-  this.addFact(fact);
-  return fact;
+  return this.addFact(`You weigh the same as ${this.species}!`);
 };
 
 /**
@@ -79,25 +76,19 @@ Dino.prototype.compareWeight = function (human) {
  * @returns {string} fact
  */
 Dino.prototype.compareHeight = function (human) {
-  if (this.species === "Pigeon") {
-    return;
-  }
   const humanHeight = human.height;
   const heightRatio = (this.height / humanHeight).toFixed(1);
-  let fact;
   if (heightRatio > 1) {
-    fact = `${this.species} is ${heightRatio} times taller than you.`;
-    this.addFact(fact);
-    return fact;
+    return this.addFact(
+      `${this.species} is ${heightRatio} times taller than you.`
+    );
   }
   if (heightRatio < 1) {
-    fact = `You are ${heightRatio} times more taller ${this.species}.`;
-    this.addFact(fact);
-    return fact;
+    return this.addFact(
+      `You are ${heightRatio} times more taller ${this.species}.`
+    );
   }
-  fact = `You are the same height as ${this.species}!`;
-  this.addFact(fact);
-  return fact;
+  return this.addFact(`You are the same height as ${this.species}!`);
 };
 
 /**
@@ -109,19 +100,17 @@ Dino.prototype.compareDiet = function (human) {
   if (this.species === "Pigeon") {
     return;
   }
-  const humanDiet = human.diet;
+  const humanDiet = human.diet.toLowerCase();
   const article = humanDiet === "omnivore" ? "an" : "a";
 
-  let fact;
-  if (humanDiet === this.diet) {
-    fact = `You are ${article} ${humanDiet} and ${this.species} is too.`;
-    this.addFact(fact);
-    return fact;
+  if (humanDiet === this.diet.toLowerCase()) {
+    return this.addFact(
+      `You are ${article} ${humanDiet} and ${this.species} is too.`
+    );
   }
-
-  fact = `You are ${article} ${humanDiet} but ${this.species} is ${this.diet}.`;
-  this.addFact(fact);
-  return fact;
+  return this.addFact(
+    `You are ${article} ${humanDiet} but ${this.species} is ${this.diet}.`
+  );
 };
 
 /**
@@ -155,43 +144,11 @@ function fetchDinoData() {
 }
 
 /**
- * @description Gets user input from html form.
- * @returns {Object} Human object created from user input.
- */
-function getHuman() {
-  const name = document.querySelector("#name").value;
-  const heightFeet = parseFloat(document.querySelector("#feet").value);
-  const heightInches = parseFloat(document.querySelector("#inches").value);
-  const weight = parseFloat(document.querySelector("#weight").value);
-  const diet = document.querySelector("#diet").value;
-  const height = heightFeet * 12 + heightInches;
-  return new Human(name, height, weight, diet);
-}
-/**
- * @description Listens to try again button.
- */
-
-function userTryAgain() {
-  document.querySelector("#grid").style.display = "none";
-  document.querySelector("#btn-tryAgain").style.display = "none";
-
-  document.querySelector("#dino-compare").style.display = "block";
-
-  document.querySelector("#name").value = "";
-  document.querySelector("#feet").value = 0;
-  document.querySelector("#inches").value = 0;
-  document.querySelector("#weight").value = 0;
-  document.querySelector("#diet").selectedIndex = 0;
-}
-
-/**
  * @description Adds the Grid to page when compare me button is clicked.
  * @param  {Object} dinos
  */
-function compareMeClicked(dinos) {
+function compareMeClicked(dinos, human) {
   let counter = 0;
-
-  const human = getHuman();
 
   document.querySelector("#dino-compare").style.display = "none";
   const grid = document.querySelector("#grid");
@@ -256,6 +213,23 @@ function createGridItem(animal) {
   return gridItemDiv;
 }
 
+/**
+ * @description Listens to try again button.
+ */
+
+function userTryAgain() {
+  document.querySelector("#grid").style.display = "none";
+  document.querySelector("#btn-tryAgain").style.display = "none";
+
+  document.querySelector("#dino-compare").style.display = "block";
+
+  document.querySelector("#name").value = "";
+  document.querySelector("#feet").value = 0;
+  document.querySelector("#inches").value = 0;
+  document.querySelector("#weight").value = 0;
+  document.querySelector("#diet").selectedIndex = 0;
+}
+
 (function () {
   let dinos = [];
   /**
@@ -272,11 +246,26 @@ function createGridItem(animal) {
   document
     .querySelector("#dino-compare")
     .addEventListener("submit", (event) => {
-      // event is only used for this,
-      // so it is cleaner to move it here
       event.preventDefault();
+
+      /**
+       * @description Gets user input from html form.
+       * @returns {Object} Human object created from user input.
+       */
+      const human = (function getHuman() {
+        const name = document.querySelector("#name").value;
+        const heightFeet = parseFloat(document.querySelector("#feet").value);
+        const heightInches = parseFloat(
+          document.querySelector("#inches").value
+        );
+        const weight = parseFloat(document.querySelector("#weight").value);
+        const diet = document.querySelector("#diet").value;
+        const height = heightFeet * 12 + heightInches;
+        return new Human(name, height, weight, diet);
+      })();
+
       if (dinos.length) {
-        compareMeClicked(dinos);
+        compareMeClicked(dinos, human);
       }
     });
 
