@@ -98,6 +98,7 @@ function fetchDinoData() {
       return console.log(error.message);
     });
 }
+
 function getHuman() {
   let name = document.querySelector("#name").value;
   let heightFeet = parseFloat(document.querySelector("#feet").value);
@@ -109,6 +110,7 @@ function getHuman() {
 }
 
 async function compareMeClicked(e) {
+  let counter = 0;
   e.preventDefault();
 
   let human = getHuman();
@@ -118,15 +120,42 @@ async function compareMeClicked(e) {
   let grid = document.querySelector("#grid");
 
   for (let dino of dinos) {
+    if (counter === 4) {
+      console.log(human);
+      let item = createHumanGridItem(human);
+      grid.appendChild(item);
+    }
+
     dino.compareDiet(human);
     dino.compareHeight(human);
     dino.compareWeight(human);
-    let item = createGridItem(dino);
+    let item = createDinoGridItem(dino);
     grid.appendChild(item);
+    counter++;
   }
 }
 
-function createGridItem(dino) {
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function createHumanGridItem(human) {
+  let gridItemDiv = document.createElement("div");
+  gridItemDiv.className = "grid-item";
+
+  let speciesDiv = document.createElement("h3");
+  speciesDiv.innerText = human.name;
+
+  let image = document.createElement("img");
+  image.src = `../images/human.png`;
+
+  gridItemDiv.appendChild(speciesDiv);
+  gridItemDiv.appendChild(image);
+
+  return gridItemDiv;
+}
+
+function createDinoGridItem(dino) {
   let gridItemDiv = document.createElement("div");
   gridItemDiv.className = "grid-item";
 
@@ -137,7 +166,8 @@ function createGridItem(dino) {
   image.src = `../images/${dino.species.toLowerCase()}.png`;
 
   let fact = document.createElement("p");
-  fact.innerText = dino.facts[1];
+  let randomInt = getRandomInt(dino.facts.length - 1);
+  fact.innerText = dino.facts[randomInt];
 
   gridItemDiv.appendChild(speciesDiv);
   gridItemDiv.appendChild(image);
@@ -147,5 +177,7 @@ function createGridItem(dino) {
 }
 
 (function () {
-  document.querySelector("#btn").addEventListener("click", compareMeClicked);
+  document
+    .querySelector("#dino-compare")
+    .addEventListener("submit", compareMeClicked);
 })();
