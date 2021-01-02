@@ -172,7 +172,7 @@ function getHuman() {
  * @description Adds the Grid to page when compare me button is clicked.
  * @param  {Object} dinos
  */
-async function compareMeClicked(dinos) {
+function compareMeClicked(dinos) {
   let counter = 0;
 
   const human = getHuman();
