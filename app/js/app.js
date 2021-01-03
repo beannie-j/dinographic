@@ -222,36 +222,31 @@ function resetCompareForm() {
 }
 
 function toggleGridDisplay() {
-  const gridDisplay = document.querySelector("#grid").style.display;
-  // show or hide grid
-  console.log(gridDisplay);
-  if (gridDisplay) {
-    document.querySelector("#grid").style.display = "flex";
+  const grid = document.querySelector("#grid");
+  const { display } = getComputedStyle(grid);
+  if (display === "none") {
+    grid.style.display = "flex";
   } else {
-    document.querySelector("#grid").style.display = "none";
+    grid.style.display = "none";
   }
 }
 function toggleCompareFormDisplay() {
-  // show or hide the compare form
-  // document.querySelector("#dino-compare").style.display = "block";
-  const compareFormDisplay = document.querySelector("#dino-compare").style
-    .display;
-  console.log(compareFormDisplay);
-  if (!document.querySelector("#dino-compare").style.display) {
-    document.querySelector("#dino-compare").style.display = "block";
+  const compareForm = document.querySelector("#dino-compare");
+  const { display } = getComputedStyle(compareForm);
+  if (display === "none") {
+    compareForm.style.display = "block";
   } else {
-    document.querySelector("#dino-compare").style.display = "none";
+    compareForm.style.display = "none";
   }
 }
 
 function toggleTryAgainButton() {
-  // console.log(document.querySelector("#btn-tryAgain").style.display);
-  const tryAgainButtonDisplay = document.querySelector("#btn-tryAgain").style
-    .display;
-  if (!tryAgainButtonDisplay) {
-    document.querySelector("#btn-tryAgain").style.display = "block";
+  const tryAgainButton = document.querySelector("#btn-tryAgain");
+  const { display } = getComputedStyle(tryAgainButton);
+  if (display === "none") {
+    tryAgainButton.style.display = "block";
   } else {
-    document.querySelector("#btn-tryAgain").style.display = "none";
+    tryAgainButton.style.display = "none";
   }
 }
 
