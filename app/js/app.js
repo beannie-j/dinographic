@@ -76,6 +76,9 @@ Dino.prototype.compareWeight = function (human) {
  * @returns {string} fact
  */
 Dino.prototype.compareHeight = function (human) {
+  if (this.species === "Pigeon") {
+    return;
+  }
   const humanHeight = human.height;
   const heightRatio = (this.height / humanHeight).toFixed(1);
   if (heightRatio > 1) {
@@ -151,6 +154,8 @@ function compareMeClicked(dinos, human) {
   document.querySelector("#dino-compare").style.display = "none";
 
   const grid = document.querySelector("#grid");
+  grid.style.display = "flex";
+  grid.innerHTML = "";
 
   dinos.forEach((dino, index) => {
     if (index === 4) {
