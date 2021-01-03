@@ -163,9 +163,11 @@ function compareMeClicked(dinos, human) {
       grid.appendChild(item);
     }
 
-    dino.compareDiet(human);
-    dino.compareHeight(human);
-    dino.compareWeight(human);
+    if (dino.species !== "Pigeon") {
+      dino.compareDiet(human);
+      dino.compareHeight(human);
+      dino.compareWeight(human);
+    }
 
     const item = createGridItem(dino);
     grid.appendChild(item);
@@ -215,10 +217,8 @@ function createGridItem(animal) {
 function userTryAgain() {
   document.querySelector("#grid").style.display = "none";
   document.querySelector("#btn-tryAgain").style.display = "none";
-
   document.querySelector("#dino-compare").style.display = "block";
-
-  document.querySelector("#name").value = "";
+  document.querySelector("#name").value = null;
   document.querySelector("#feet").value = "none";
   document.querySelector("#inches").value = "none";
   document.querySelector("#weight").value = "none";
