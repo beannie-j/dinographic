@@ -148,13 +148,12 @@ function fetchDinoData() {
  * @param  {Object} dinos
  */
 function compareMeClicked(dinos, human) {
-  let counter = 0;
-
   document.querySelector("#dino-compare").style.display = "none";
+
   const grid = document.querySelector("#grid");
 
-  dinos.forEach((dino) => {
-    if (counter === 4) {
+  dinos.forEach((dino, index) => {
+    if (index === 4) {
       let item = createGridItem(human);
       grid.appendChild(item);
     }
@@ -165,9 +164,7 @@ function compareMeClicked(dinos, human) {
 
     const item = createGridItem(dino);
     grid.appendChild(item);
-    counter++;
   });
-
   document.querySelector("#btn-tryAgain").style.display = "block";
 }
 
@@ -184,31 +181,24 @@ function getRandomInt(max) {
  * @returns {Object} Grid item to be added to Grid.
  */
 function createGridItem(animal) {
-  let gridItemDiv = document.createElement("div");
+  const gridItemDiv = document.createElement("div");
   gridItemDiv.className = "grid-item";
 
+  const speciesDiv = document.createElement("h3");
+  speciesDiv.innerText = animal instanceof Dino ? animal.species : animal.name;
+  gridItemDiv.appendChild(speciesDiv);
+
+  const image = document.createElement("img");
+  image.src = `../images/${
+    animal instanceof Dino ? animal.species.toLowerCase() : "human"
+  }.png`;
+  gridItemDiv.appendChild(image);
+
   if (animal instanceof Dino) {
-    let speciesDiv = document.createElement("h3");
-    speciesDiv.innerText = animal.species;
-    let image = document.createElement("img");
-    image.src = `../images/${animal.species.toLowerCase()}.png`;
-    let fact = document.createElement("p");
+    const fact = document.createElement("p");
     const randomInt = getRandomInt(animal.facts.length - 1);
     fact.innerText = animal.facts[randomInt];
-    gridItemDiv.appendChild(speciesDiv);
-    gridItemDiv.appendChild(image);
     gridItemDiv.appendChild(fact);
-
-    return gridItemDiv;
-  }
-  if (animal instanceof Human) {
-    let speciesDiv = document.createElement("h3");
-    speciesDiv.innerText = animal.name;
-    let image = document.createElement("img");
-    image.src = `../images/human.png`;
-    gridItemDiv.appendChild(speciesDiv);
-    gridItemDiv.appendChild(image);
-    return gridItemDiv;
   }
   return gridItemDiv;
 }
@@ -224,9 +214,9 @@ function userTryAgain() {
   document.querySelector("#dino-compare").style.display = "block";
 
   document.querySelector("#name").value = "";
-  document.querySelector("#feet").value = 0;
-  document.querySelector("#inches").value = 0;
-  document.querySelector("#weight").value = 0;
+  document.querySelector("#feet").value = "none";
+  document.querySelector("#inches").value = "none";
+  document.querySelector("#weight").value = "none";
   document.querySelector("#diet").selectedIndex = 0;
 }
 
@@ -271,5 +261,19 @@ function userTryAgain() {
 
   document.querySelector("#btn-tryAgain").addEventListener("click", () => {
     userTryAgain();
+  });
+
+  const feetInput = document.querySelector("#feet");
+  const inchesInput = document.querySelector("#inches");
+
+  feetInput.addEventListener("change", (event) => {
+    if (event.target.value) {
+      inchesInput.removeAttribute("required");
+    }
+  });
+  inchesInput.addEventListener("change", (event) => {
+    if (event.target.value) {
+      feetInput.removeAttribute("required");
+    }
   });
 })();
