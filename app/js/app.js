@@ -151,11 +151,9 @@ function fetchDinoData() {
  * @param  {Object} dinos
  */
 function compareMeClicked(dinos, human) {
-  // document.querySelector("#dino-compare").style.display = "none";
   toggleCompareFormDisplay();
 
   const grid = document.querySelector("#grid");
-  // grid.style.display = "flex";
   toggleGridDisplay();
   grid.innerHTML = null;
 
