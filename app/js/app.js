@@ -151,10 +151,12 @@ function fetchDinoData() {
  * @param  {Object} dinos
  */
 function compareMeClicked(dinos, human) {
-  document.querySelector("#dino-compare").style.display = "none";
+  // document.querySelector("#dino-compare").style.display = "none";
+  toggleCompareFormDisplay();
 
   const grid = document.querySelector("#grid");
-  grid.style.display = "flex";
+  // grid.style.display = "flex";
+  toggleGridDisplay();
   grid.innerHTML = null;
 
   dinos.forEach((dino, index) => {
@@ -172,7 +174,8 @@ function compareMeClicked(dinos, human) {
     const item = createGridItem(dino);
     grid.appendChild(item);
   });
-  document.querySelector("#btn-tryAgain").style.display = "block";
+  // document.querySelector("#btn-tryAgain").style.display = "block";
+  toggleTryAgainButton();
 }
 
 /**
@@ -210,19 +213,46 @@ function createGridItem(animal) {
   return gridItemDiv;
 }
 
-/**
- * @description Listens to try again button.
- */
-
-function userTryAgain() {
-  document.querySelector("#grid").style.display = "none";
-  document.querySelector("#btn-tryAgain").style.display = "none";
-  document.querySelector("#dino-compare").style.display = "block";
+function resetCompareForm() {
   document.querySelector("#name").value = null;
-  document.querySelector("#feet").value = "none";
-  document.querySelector("#inches").value = "none";
-  document.querySelector("#weight").value = "none";
+  document.querySelector("#feet").value = null;
+  document.querySelector("#inches").value = null;
+  document.querySelector("#weight").value = null;
   document.querySelector("#diet").selectedIndex = 0;
+}
+
+function toggleGridDisplay() {
+  const gridDisplay = document.querySelector("#grid").style.display;
+  // show or hide grid
+  console.log(gridDisplay);
+  if (gridDisplay) {
+    document.querySelector("#grid").style.display = "flex";
+  } else {
+    document.querySelector("#grid").style.display = "none";
+  }
+}
+function toggleCompareFormDisplay() {
+  // show or hide the compare form
+  // document.querySelector("#dino-compare").style.display = "block";
+  const compareFormDisplay = document.querySelector("#dino-compare").style
+    .display;
+  console.log(compareFormDisplay);
+  if (!document.querySelector("#dino-compare").style.display) {
+    document.querySelector("#dino-compare").style.display = "block";
+  } else {
+    document.querySelector("#dino-compare").style.display = "none";
+  }
+}
+
+function toggleTryAgainButton() {
+  // console.log(document.querySelector("#btn-tryAgain").style.display);
+  const tryAgainButtonDisplay = document.querySelector("#btn-tryAgain").style
+    .display;
+  if (!tryAgainButtonDisplay) {
+    document.querySelector("#btn-tryAgain").style.display = "block";
+  } else {
+    document.querySelector("#btn-tryAgain").style.display = "none";
+  }
 }
 
 (function () {
@@ -265,9 +295,11 @@ function userTryAgain() {
     });
 
   document.querySelector("#btn-tryAgain").addEventListener("click", () => {
-    userTryAgain();
+    resetCompareForm();
+    toggleGridDisplay();
+    toggleCompareFormDisplay();
+    toggleTryAgainButton();
   });
-
   const feetInput = document.querySelector("#feet");
   const inchesInput = document.querySelector("#inches");
 
