@@ -155,7 +155,7 @@ function compareMeClicked(dinos, human) {
 
   const grid = document.querySelector("#grid");
   grid.style.display = "flex";
-  grid.innerHTML = "";
+  grid.innerHTML = null;
 
   dinos.forEach((dino, index) => {
     if (index === 4) {
